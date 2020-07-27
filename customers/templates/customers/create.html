@@ -1,0 +1,52 @@
+{% extends 'users/layout.html' %}
+
+{% block content %}
+{% if messages %}
+<div class="row mt-2">
+	<ul class="messages">
+		{% for message in messages %}
+		<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+<div class="row mt-2">
+	<div class="col-md-12 bg-light p-3">
+		<h1 class="text-center">Registrar Cliente</h1>
+		<form method="POST" id="form">
+			{{ form.non_field_errors }}
+			<!-- <div class="form-row">
+				<div class="col">
+					{{ form.first_name.label }}
+					{{ form.first_name }}
+					{{ form.first_name.errors }}
+				</div>
+				<div class="col">
+					{{ form.second_name.label }}
+					{{ form.second_name }}
+					{{ form.second_name.errors }}
+				</div>
+				<div class="col">
+					{{ form.third_name.label }}
+					{{ form.third_name }}
+					{{ form.third_name.errors }}
+				</div>
+			</div> -->
+			{% for field in form %}
+			{{ field.label }}
+			{{ field }}
+			{{ field.errors }}
+			{% endfor %}
+			<!-- {{ form.as_p }} -->
+			{% csrf_token %}
+			<div class="row mt-2">
+				<div class="col">
+					
+					<button class="btn btn-primary" type="submit">Registrar</button>
+				</div>
+			</div>
+			<!-- <a href="#">Registrarse</a> -->
+		</form>
+	</div>
+</div>
+{% endblock %}
