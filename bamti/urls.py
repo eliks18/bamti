@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', login_required(usr_views.logout)),
 
     path('customers/create', login_required(cstmr_views.create), name='customer.create'),
+    path('customers/validate_customer_type', login_required(cstmr_views.validate_customer_type), name='customers.validate_customer_type'),
 
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

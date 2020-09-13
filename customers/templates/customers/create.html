@@ -1,5 +1,6 @@
 {% extends 'users/layout.html' %}
 
+{% block title %} Registrar Cliente {% endblock %}
 {% block content %}
 {% if messages %}
 <div class="row mt-2">
@@ -14,7 +15,57 @@
 	<div class="col-md-12 bg-light p-3">
 		<h1 class="text-center">Registrar Cliente</h1>
 		<form method="POST" id="form">
-			{{ form.non_field_errors }}
+			<!-- STEP 1: ELIGE TIPO CLIENTE -->
+			<div class="form-section current">
+				<div class="row my-1">
+					<div class="col">
+						{{ form.customer_type.label }}
+						{{ form.customer_type }}
+						{{ form.customer_type.errors }}
+					</div>
+				</div>
+			</div>
+			<!-- STEP 2: CAMPOS PERSONALES DEL TIPO DE CLIENTE -->
+			<div class="form-section personal">
+				<!-- <div class="row my-1">
+					<div class="col">
+						{{ form.first_name.label }}
+						{{ form.first_name }}
+						{{ form.first_name.errors }}
+					</div>
+					<div class="col">
+						{{ form.second_name.label }}
+						{{ form.second_name }}
+						{{ form.second_name.errors }}
+					</div>
+				</div> -->
+			</div>
+
+			<div class="form-section">
+				<!-- <label for="firstname">First Name:</label>
+				<input type="text" class="form-control" name="firstname" required="">
+
+				<label for="lastname">Last Name:</label>
+				<input type="text" class="form-control" name="lastname" required=""> -->
+			</div>
+
+			<div class="form-section">
+				<!-- <label for="email">Email:</label>
+				<input type="email" class="form-control" name="email" required=""> -->
+			</div>
+
+			<div class="form-section">
+				<!-- <label for="color">Favorite color:</label>
+				<input type="text" class="form-control" name="color" required=""> -->
+			</div>
+
+			<div class="form-navigation">
+				<button type="button" class="previous btn btn-info pull-left">&lt; Previous</button>
+				<button type="button" class="next btn btn-info pull-right">Next &gt;</button>
+				<input type="submit" class="btn btn-default pull-right">
+				<span class="clearfix"></span>
+			</div>
+<!-- 			{{ form.non_field_errors }} -->
 			<!-- <div class="form-row">
 				<div class="col">
 					{{ form.first_name.label }}
@@ -32,19 +83,19 @@
 					{{ form.third_name.errors }}
 				</div>
 			</div> -->
-			{% for field in form %}
+<!-- 			{% for field in form %}
 			{{ field.label }}
 			{{ field }}
 			{{ field.errors }}
-			{% endfor %}
+			{% endfor %} -->
 			<!-- {{ form.as_p }} -->
 			{% csrf_token %}
-			<div class="row mt-2">
+			<!-- <div class="row mt-2">
 				<div class="col">
 					
 					<button class="btn btn-primary" type="submit">Registrar</button>
 				</div>
-			</div>
+			</div> -->
 			<!-- <a href="#">Registrarse</a> -->
 		</form>
 	</div>
