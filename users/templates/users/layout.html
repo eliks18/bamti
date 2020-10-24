@@ -23,7 +23,7 @@
 			border-color: #f5c6cb;
 		}
 	</style>
-	<link rel="stylesheet" type="text/css" href="{% static 'customers/assets/css/parsley.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'customers/assets/vendor/parsley/css/parsley.css' %}">
 </head>
 <body>
 
@@ -70,8 +70,8 @@
 
 	{# JS y jQuery Bootstrap #}
 	{% bootstrap_javascript jquery='full' %}
-	<script type="text/javascript" src='{% static "customers/assets/js/jquery.mask.min.js" %}'></script>
-	<script type="text/javascript" src='{% static "customers/assets/js/parsley.min.js" %}'></script>
+	<script type="text/javascript" src='{% static "customers/assets/vendor/mask/js/jquery.mask.min.js" %}'></script>
+	<script type="text/javascript" src='{% static "customers/assets/vendor/parsley/js/parsley.min.js" %}'></script>
 	<script type="text/javascript" src='{% static "customers/assets/js/customers.js" %}'></script>
 </body>
 </html>

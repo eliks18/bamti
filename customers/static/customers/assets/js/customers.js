@@ -1,98 +1,110 @@
-$( document ).ready(function() {
-	// MASKS
-	$('.date').mask('00/00/0000');
-	// END MASKS
-	
+$( document ).ready(function() {	
 	// STEPS CONFIG
 	var $sections = $('.form-section');
 
-	function renderFormFields( data, section ) {
+	function renderFormFields( data ) {
 		// CLEAR 
-		$("."+section).empty();
-		var content = $("."+section).text();
+		var count = 0;
+		$.each(data, function( index_data, section_data ) {
+			var section = index_data.toLowerCase();
 
-		var html = "";
-		$.each(data, function( index, value ) {
-			if ( value.type == 'input' ) {
-				html +=  `
+			// --------
+			$("."+section).empty();
+			var content = $("."+section).text();
+
+			var html = "";
+			html +=  `
 				<div class='row my-1'>
-					<div class='col'>
-						<label>${value.label}</label>`;
+				<div class='col'>
+				<h5>${section}</h5>
+				</div>
+				</div>`;
+			$.each(section_data, function( index, value ) {
+				if ( value.type == 'input' ) {
+					html +=  `
+					<div class='row my-1'>
+						<div class='col'>
+							<label>${value.label}</label>`;
 					html +=  `
 						<input
 						type="text"
 						id="${index}"
 						name="${index}"
-						class="form-control"
+						class="form-control ${value.class}"
 						data-parsley-required-message="Este campo es obligatorio"
-						data-parsley-group="block-${ curIndex() }"`;
-				if ( value.required ) {
+						data-parsley-group="block-${ curIndex()+count }"`;
+					if ( value.required ) {
+						html +=  `
+							required="${value.required}"`;
+					}
 					html +=  `
-						required="${value.required}"`;
-				}
-				html +=  `
-						>
-					</div>
-				</div>`;
-			} else if ( value.type == 'select' ) {
-				html +=  `
-				<div class='row my-1'>
-					<div class='col'>
-						<label>${value.label}</label>`;
+							>
+						</div>
+					</div>`;
+				} else if ( value.type == 'select' ) {
 					html +=  `
-						<select
-						id="${index}"
-						name="${index}"
-						class="form-control"
-						data-parsley-required-message="Este campo es obligatorio"
-						data-parsley-group="block-${ curIndex() }"`;
-				if ( value.required ) {
+					<div class='row my-1'>
+						<div class='col'>
+							<label>${value.label}</label>`;
+						html +=  `
+							<select
+							id="${index}"
+							name="${index}"
+							class="form-control"
+							data-parsley-required-message="Este campo es obligatorio"
+							data-parsley-group="block-${ curIndex()+count }"`;
+					if ( value.required ) {
+						html +=  `
+							required="${value.required}"`;
+					}
 					html +=  `
-						required="${value.required}"`;
-				}
-				html +=  `
-						>
-						<option disabled selected>Selecciona una opción</option>`;
-				$.each(value.options, function( opt_index, opt_value ) {
-					console.log([opt_index, opt_value]);
-					html +=  `
-						<option value="${opt_index}">${opt_value}</option>`;
-				});
+							>
+							<option disabled selected>Selecciona una opción</option>`;
+					$.each(value.options, function( opt_index, opt_value ) {
+						html +=  `
+							<option value="${opt_index}">${opt_value}</option>`;
+					});
 
-				html +=  `
-						</select>
-					</div>
-				</div>`;
-			}
-			// $("#"+index ).attr('required', value.required);
+					html +=  `
+							</select>
+						</div>
+					</div>`;
+				}
+			});
+			count++;
+
+			$("."+section).append(html);
+			$("."+section).parsley().refresh();			
+			// --------
 		});
 
-		$("."+section).append(html);
-		$("."+section).parsley().refresh();
+		// MASKS
+		$('.date').mask('00/00/0000');
+		$('.phone_with_ddd').mask('(00) 0000-0000');
+		// END MASKS
+
 	}
 
-	function renderNextStepFields( index ) {
-		// IF INDEX = 0
-		// 	RENDER STEPS CONTENTS
-		if ( index == 0 ) {
-			let id_customer_type = $("#id_customer_type").val();
-			let csrf_token = $("input[name=csrfmiddlewaretoken]").val();
-			// AJAX
-			$.ajaxSetup({
-				data: {csrfmiddlewaretoken: csrf_token}
-			});
-			$.ajax({
-				url: 'validate_customer_type',
-				type: 'POST',
-				data: {customer_type: id_customer_type}
-			})
-			.done(function(data) {
-				renderFormFields(data.Personal, 'personal');
-			})
-			.fail(function() {
-				alert("error");
-			});
-		}
+	function renderNextStepFields( index ) {	
+		let id_customer_type = $("#id_customer_type").val();
+		let csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+		// AJAX
+		$.ajaxSetup({
+			data: {csrfmiddlewaretoken: csrf_token}
+		});
+		$.ajax({
+			url: 'validate_customer_type',
+			type: 'POST',
+			data: {customer_type: id_customer_type}
+		})
+		.done(function(data) {
+			renderFormFields(data);
+			// renderFormFields(data.Personal, 'personal');
+		})
+		.fail(function() {
+			alert("error");
+		});
+	
 	}
 
 	function navigateTo(index) {
@@ -123,7 +135,10 @@ $( document ).ready(function() {
 		$('#form').parsley().whenValidate({
 			group: 'block-' + curIndex()
 		}).done(function() {
-			renderNextStepFields( curIndex() );
+			// IF curIndex() = 0 RENDER STEPS CONTENTS
+			if ( curIndex() == 0 ) {
+				renderNextStepFields( curIndex() );
+			}
 			navigateTo(curIndex() + 1);
 		});
 	});

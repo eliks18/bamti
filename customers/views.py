@@ -18,51 +18,77 @@ def validate_customer_type(request):
 				"first_name": {
 					"required": True,
 					"label": "Primer Nombre",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"second_name": {
 					"required": False,
 					"label": "Segundo Nombre",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"third_name": {
 					"required": False,
 					"label": "Tercer Nombre",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"first_lastname": {
 					"required": True,
 					"label": "Primer Apellido",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"second_lastname": {
 					"required": True,
 					"label": "Segundo Apellido",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"birth_date": {
 					"required": True,
 					"label": "Fecha de Nacimiento",
-					"type": "input"
+					"type": "input",
+					"class": "date"
 				},
 				"rfc": {
 					"required": True,
 					"label": "RFC",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"curp": {
 					"required": True,
 					"label": "CURP",
-					"type": "input"
+					"type": "input",
+					"class": ""
 				},
 				"marital_status": {
 					"required": True,
 					"label": "Estado Civil",
 					"type": "select",
+					"class": "",
 					"options": {
-						"1": "Soltero"
+						"1": "Soltero",
+						"2": "Casado",
+						"3": "Divorciado",
+						"4": "Unión Libre",
 					}
 				}
+			},
+			"Domicilio": {
+				"tel_casa": {
+					"required": False,
+					"label": "Teléfono Casa",
+					"type": "input",
+					"class": "phone_with_ddd"
+				},
+				"tel_cel": {
+					"required": True,
+					"label": "Teléfono Celular",
+					"type": "input",
+					"class": "phone_with_ddd"
+				},
 			}
 		}
 		return JsonResponse(fields, status=200)
